@@ -51,6 +51,13 @@ const App=()=> {
       }).catch(error => {
         console.error("Failed to get text: ", error);
       });
+      CustomViewModule.getJsonObject((error, jsonObject) => {
+        if (error) {
+            console.error(error);
+        } else {
+            console.log("ReactNativeJSON: ",jsonObject);
+        }
+       });
     }
 };
     return (

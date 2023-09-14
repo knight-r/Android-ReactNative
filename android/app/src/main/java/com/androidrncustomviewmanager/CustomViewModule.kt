@@ -1,13 +1,17 @@
 package com.androidrncustomviewmanager
 
 import android.util.Log
+import com.facebook.react.bridge.Arguments
+import com.facebook.react.bridge.Callback
 import com.facebook.react.bridge.Promise
 import com.facebook.react.bridge.ReactApplicationContext
 import com.facebook.react.bridge.ReactContextBaseJavaModule
 import com.facebook.react.bridge.ReactMethod
 import com.facebook.react.bridge.ReadableArray
 import com.facebook.react.bridge.ReadableMap
+import com.facebook.react.bridge.WritableMap
 import com.facebook.react.uimanager.UIManagerModule
+import org.json.JSONObject
 
 class CustomViewModule internal constructor(private var reactContext: ReactApplicationContext): ReactContextBaseJavaModule(reactContext) {
     /**
@@ -94,6 +98,32 @@ class CustomViewModule internal constructor(private var reactContext: ReactAppli
                 promise.reject("ERROR", "Failed to get text: $e")
             }
         }
+    }
+
+
+    @ReactMethod
+    fun getJsonObject(callback: Callback) {
+        val jsonObject = JSONObject()
+        jsonObject.put("name", "Ayush")
+        jsonObject.put("age", 28)
+        callback.invoke(null, convertJsonToMap(jsonObject))
+    }
+    private fun convertJsonToMap(jsonObject: JSONObject): WritableMap {
+        val map = Arguments.createMap()
+
+        val iterator = jsonObject.keys()
+        while (iterator.hasNext()) {
+            val key = iterator.next()
+            when (val value = jsonObject.get(key)) {
+                is JSONObject -> map.putMap(key, convertJsonToMap(value))
+                is Boolean -> map.putBoolean(key, value)
+                is Int -> map.putInt(key, value)
+                is Double -> map.putDouble(key, value)
+                is String -> map.putString(key, value)
+                else -> map.putString(key, value.toString())
+            }
+        }
+        return map
     }
 
 
