@@ -6,6 +6,7 @@ import com.facebook.react.bridge.ReactApplicationContext
 import com.facebook.react.bridge.ReactContextBaseJavaModule
 import com.facebook.react.bridge.ReactMethod
 import com.facebook.react.bridge.ReadableArray
+import com.facebook.react.bridge.ReadableMap
 import com.facebook.react.uimanager.UIManagerModule
 
 class CustomViewModule internal constructor(private var reactContext: ReactApplicationContext): ReactContextBaseJavaModule(reactContext) {
@@ -53,6 +54,16 @@ class CustomViewModule internal constructor(private var reactContext: ReactAppli
     @ReactMethod
     fun receiveInt(data: Int) {
         Log.i("AndroidInt", data.toString())
+    }
+
+    @ReactMethod
+    fun receiveBoolean(data: Int) {
+        Log.i("AndroidBoolean", data.toString())
+    }
+
+    @ReactMethod
+    fun receiveJSON(jasonData: ReadableMap) {
+        Log.i("AndroidJasonObject", "${jasonData.getString("name").toString()} ${jasonData.getDouble("age")}")
     }
 
     @ReactMethod

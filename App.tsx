@@ -21,6 +21,13 @@ const App=()=> {
 
   CustomViewModule.receiveString("Ayush Kushwaha");
   CustomViewModule.receiveInt(50);
+
+  const jsonData = {
+    name: 'Ayush',
+    age: 30
+  };
+  
+  CustomViewModule.receiveJSON(jsonData);
   
   const fetchEditTextValue = () => {
    
